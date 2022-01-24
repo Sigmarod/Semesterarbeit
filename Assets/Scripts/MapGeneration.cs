@@ -6,26 +6,24 @@ using UnityEngine.ProBuilder;
 public class MapGeneration : MonoBehaviour
 {
     // Start is called before the first frame update
+    public ProBuilderMesh cube;
+    public Material material;
     void Start()
     {
-        ProBuilderMesh quad = ProBuilderMesh.Create(
-            new Vector3[] {
-        new Vector3(0f, 0f, 0f),
-        new Vector3(1f, 0f, 0f),
-        new Vector3(0f, 1f, 0f),
-        new Vector3(1f, 1f, 0f)
-     },
-     new Face[] { new Face(new int[] { 0, 1, 2, 1, 3, 2 } )
- });
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        Vector3 test = new Vector3(1, 2, 3);
+        Vector3 test2 = new Vector3(0, 0, 0);
+        cube = ShapeGenerator.GenerateCube(PivotLocation.Center, test);
+        cube.GetComponent<MeshRenderer>().material = material;
+        cube.transform.position = test2;
 
 
+        // Update is called once per frame
+        void Update()
+        {
+
+
+
+        }
 
     }
-
-
 }
