@@ -15,6 +15,7 @@ public class MapGeneration : MonoBehaviour
         cube = ShapeGenerator.GenerateCube(PivotLocation.Center, test);
         cube.GetComponent<MeshRenderer>().material = material;
         cube.transform.position = test2;
+        cube.triangles = mesh.triangles.Reverse().ToArray();
 
 
         // Update is called once per frame
