@@ -10,23 +10,29 @@ public class MapGeneration : MonoBehaviour
     // Start is called before the first frame update
     public ProBuilderMesh cube;
     public Material material;
+
+    Vector3 size = new Vector3(1, 2, 3);
+    Vector3 position = new Vector3(0, 0, 0);
     void Start()
     {
-        
-        /* IList<Face> cubefaces = new List<Face>();
-        cubefaces = cube.faces; */
 
-        
 
-        ExtrudeElements.Extrude(cube, cube.faces, ExtrudeMethod.IndividualFaces, 1f);
+        generateBlock(size, position);
+
         Debug.Log("FaceCount: " + cube.faces.Count);
-        for(int i = 0; i < cube.faces.Count; i++){
-            Debug.Log("Face: "+cube.faces[i]);
+
+        for (int i = 0; i < cube.faces.Count; i++)
+        {
+            Debug.Log("Face: " + cube.faces[i]);
             cube.faces[i].Reverse();
         }
-        
 
 
+        /* IList<Face> cubefaces = new List<Face>();
+        cubefaces.Add(cube.faces[0]); */
+        /* IEnumerable<Face> chosenFace = new IEnumerable<Face>(); */
+        /* ExtrudeElements.Extrude(cube, cubefaces, ExtrudeMethod.IndividualFaces, 1f);
+        SurfaceTopology.ConformNormals(cube, cube.faces); */
     }
 
     // Update is called once per frame
@@ -37,13 +43,10 @@ public class MapGeneration : MonoBehaviour
 
     }
 
-    void generateBlock()
+    void generateBlock(Vector3 size, Vector3 position)
     {
-        Vector3 test = new Vector3(1, 2, 3);
-        Vector3 test2 = new Vector3(0, 0, 0);
-        cube = ShapeGenerator.GenerateCube(PivotLocation.Center, test);
+        cube = ShapeGenerator.GenerateCube(PivotLocation.Center, size);
         cube.GetComponent<MeshRenderer>().material = material;
-        cube.transform.position = test2;
-        /* cube.triangles = mesh.triangles.Reverse().ToArray(); */
+        cube.transform.position = position;
     }
 }
