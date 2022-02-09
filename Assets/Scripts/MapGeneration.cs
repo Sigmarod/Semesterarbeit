@@ -30,6 +30,7 @@ public class MapGeneration : MonoBehaviour
     {
         objectPooler = ObjectPooler.Instance;
         generateMap();
+        
     }
 
     void generateMap()

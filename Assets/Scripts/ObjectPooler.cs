@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectPooler: MonoBehaviour
+public class ObjectPooler : MonoBehaviour
 {
     [System.Serializable]
     public class Pool
@@ -11,18 +11,20 @@ public class ObjectPooler: MonoBehaviour
         public GameObject prefab;
         public int size;
     }
-    
+
     #region Singleton
     public static ObjectPooler Instance;
 
     private void Awake()
     {
+
         Instance = this;
+
     }
     #endregion
+    public Dictionary<string, Queue<GameObject>> poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
     public List<Pool> pools;
-    public Dictionary<string, Queue<GameObject>> poolDictionary = new Dictionary<string, Queue<GameObject>>(); 
     // Start is called before the first frame update
 
 
@@ -33,7 +35,7 @@ public class ObjectPooler: MonoBehaviour
         {
             Queue<GameObject> objectPool = new Queue<GameObject>();
 
-            for(int i = 0; i < pool.size; i++)
+            for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);
                 obj.SetActive(false);
@@ -44,7 +46,7 @@ public class ObjectPooler: MonoBehaviour
         }
     }
 
-   public GameObject SpawnFromPool (string tag, Vector3 position, Quaternion rotation)
+    public GameObject SpawnFromPool(string tag, Vector3 position, Quaternion rotation)
     {
         if (poolDictionary.ContainsKey(tag))
         {
@@ -63,6 +65,6 @@ public class ObjectPooler: MonoBehaviour
             Debug.Log("Pool with tag " + tag + " doesn't exist.");
             return null;
         }
-        
+
     }
 }
