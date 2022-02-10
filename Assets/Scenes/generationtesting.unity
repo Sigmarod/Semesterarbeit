@@ -391,11 +391,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomHeight: 7
-  baseAreaWidth: 400
+  baseAreaWidth: 100
   baseAreaLength: 100
-  minRoomLength: 25
-  roomAreaOffset: 5
-  maxRooms: 20
+  minRoomLength: 22
+  roomAreaOffset: 2
+  maxRooms: 5
 --- !u!4 &1591756695
 Transform:
   m_ObjectHideFlags: 0
@@ -425,4 +425,7 @@ MonoBehaviour:
   pools:
   - tag: room
     prefab: {fileID: 4369494021747123558, guid: 13db0d8d096f82046bea17ed07b77405, type: 3}
-    size: 20
+    size: 10
+  - tag: teleporter
+    prefab: {fileID: 3393516605718366491, guid: 6d9b0a5b6a88a6b4d94171427b85f5a6, type: 3}
+    size: 10

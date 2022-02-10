@@ -37,7 +37,5 @@ public class GunBehaviour : MonoBehaviour
         }
     }
 
-    void Die(){
-        Destroy(gameObject);
-    }
+   
 }
