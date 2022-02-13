@@ -22,7 +22,7 @@ public class ObjectPooler : MonoBehaviour
 
     }
     #endregion
-    public Dictionary<string, Queue<GameObject>> poolDictionary = new Dictionary<string, Queue<GameObject>>();
+    public Dictionary<string, Queue<GameObject>> poolDictionary;
 
     public List<Pool> pools;
     // Start is called before the first frame update
@@ -30,7 +30,7 @@ public class ObjectPooler : MonoBehaviour
 
     void Start()
     {
-
+        poolDictionary = new Dictionary<string, Queue<GameObject>>();
         foreach (Pool pool in pools)
         {
             Queue<GameObject> objectPool = new Queue<GameObject>();

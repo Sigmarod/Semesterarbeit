@@ -7,7 +7,7 @@ public class MapGeneration : MonoBehaviour
 {
 
     //Variables
-    public float roomHeight = 7f;
+    public float roomHeight = 10f;
     public float baseAreaWidth = 100f;
     public float baseAreaLength = 200f;
     public float minRoomLength = 13f;
@@ -19,10 +19,13 @@ public class MapGeneration : MonoBehaviour
     //Lists
     List<Vector4> areaList = new List<Vector4>();
     List<Vector4> finalAreas = new List<Vector4>();
-    List<Vector4> rooms = new List<Vector4>();
+    List<int> areaNumber = new List<int>();
+    List<GameObject> roomGB = new List<GameObject>();
     List<string> divisors = new List<string>();
     //Objectpooler
     ObjectPooler objectPooler;
+    //Player
+    GameObject player;
 
 
     // Start is called before the first frame update
@@ -30,7 +33,10 @@ public class MapGeneration : MonoBehaviour
     {
         objectPooler = ObjectPooler.Instance;
         generateMap();
-        
+        generateTeleporter();
+        generateTargetCountsList();
+        generatePlayer();
+        roomGB[0].GetComponent<room>().playerEnter(roomGB.Count);
     }
 
     void generateMap()
@@ -39,12 +45,11 @@ public class MapGeneration : MonoBehaviour
 
         for (int i = 0; i < areaList.Count; i++)
         {
-            
+
             Vector4 area = areaList[i];
             /* WORDAROUND SOLUTION SHOULD PROBABLY BE CHANGED IN THE FUTURE */
-            if (isDivisible(area, i) && divisors.Count < maxRooms-1)
+            if (isDivisible(area, i) && divisors.Count < maxRooms - 1)
             {
-                Debug.Log(roomCount);
                 if (divideVert)
                 {
                     float divisor = Random.Range(area.x + minRoomLength, area.z - minRoomLength);
@@ -60,7 +65,7 @@ public class MapGeneration : MonoBehaviour
                 else
                 {
                     float divisor = Random.Range(area.y + minRoomLength, area.w - minRoomLength);
-                    divisors.Add("v" + i + " " + divisor);
+                    divisors.Add("h" + i + " " + divisor);
                     //upper area
                     areaList.Add(new Vector4(area.x, divisor, area.z, area.w));
                     //lower area
@@ -73,36 +78,133 @@ public class MapGeneration : MonoBehaviour
             }
             else
             {
-                /*  Debug.Log("Area " + i + " isn't divisible."); */
                 if (!(roomCount > maxRooms))
                 {
                     finalAreas.Add(area);
+                    areaNumber.Add(i);
                     roomCount += 1;
                 }
 
             }
 
         }
-        Debug.Log("Divisors: " + divisors.Count);
-        Debug.Log("FinalAreas: " + finalAreas.Count);
-        Debug.Log("AreaList: " + areaList.Count);
 
         for (int i = 0; i < finalAreas.Count; i++)
         {
-
+            //number of room/area in tree
+            int roomNumber = areaNumber[i];
+            //simplify area 
             Vector4 area = finalAreas[i];
-            /*             Debug.Log("AREA "+i+": "+area);
-             */
-            rooms.Add(new Vector4(area.x + roomAreaOffset, area.y + roomAreaOffset, area.z - roomAreaOffset, area.w - roomAreaOffset));
-
-            Vector4 room = rooms[i];
-            GameObject currentRoom = objectPooler.SpawnFromPool("room", new Vector3(room.x, 0, room.y), Quaternion.identity);
-            placeRoom(new Vector3(room.z - room.x, roomHeight, room.w - room.y), currentRoom, i);
-
-            Debug.Log(i + " " + area + " " + room);
+            Vector4 roomVec4 = new Vector4(area.x + roomAreaOffset, area.y + roomAreaOffset, area.z - roomAreaOffset, area.w - roomAreaOffset);
+            GameObject currentRoom = objectPooler.SpawnFromPool("room", new Vector3(roomVec4.x, 0, roomVec4.y), Quaternion.identity);
+            roomGB.Add(currentRoom);
+            currentRoom.GetComponent<room>().roomNumber = roomNumber;
+            currentRoom.GetComponent<room>().roomVec4 = roomVec4;
+            placeRoom(new Vector3(roomVec4.z - roomVec4.x, roomHeight, roomVec4.w - roomVec4.y), currentRoom, i);
+            currentRoom.layer = 6;
 
         }
 
+    }
+
+    void generateTeleporter()
+    {
+        for (int i = roomGB.Count - 1; i > 0; i--)
+        {
+            room roomScript = roomGB[i].GetComponent<room>();
+            room roomScript2 = roomGB[i - 1].GetComponent<room>();
+            //room one
+            Vector4 roomOneVec4 = roomScript.roomVec4;
+            int roomOneNumber = roomScript.roomNumber;
+            Vector3 telOnePosition = new Vector3(roomOneVec4.x + 3, 0, roomOneVec4.y + ((roomOneVec4.w - roomOneVec4.y) / 2));
+            GameObject telOne = objectPooler.SpawnFromPool("teleporter", telOnePosition, Quaternion.Euler(-90, 0, 0));
+            roomScript.telIn = telOne;
+            Teleporter telOneScript = telOne.GetComponent<Teleporter>();
+            telOneScript.room = roomGB[i];
+            telOneScript.roomCount = roomGB.Count;
+
+            //room two
+            Vector4 roomTwoVec4 = roomScript2.roomVec4;
+            int roomTwoNumber = roomScript2.roomNumber;
+            Vector3 telTwoPosition = new Vector3(roomTwoVec4.z - 3, 0, roomTwoVec4.y + ((roomTwoVec4.w - roomTwoVec4.y) / 2));
+            GameObject telTwo = objectPooler.SpawnFromPool("teleporter", telTwoPosition, Quaternion.Euler(-90, 0, 0));
+            roomScript2.telOut = telTwo;
+            Teleporter telTwoScript = telTwo.GetComponent<Teleporter>();
+            telTwoScript.room = roomGB[i - 1];
+            telTwoScript.roomCount = roomGB.Count;
+
+            //connect the teleporters
+            telOneScript.partner = telTwo;
+            telTwoScript.partner = telOne;
+            if (i == roomGB.Count - 1)
+            {
+                roomGB[i].tag = "lastRoom";
+            }
+            else
+            {
+                if (i == 1)
+                {
+                    roomGB[i - 1].tag = "firstRoom";
+                }
+            }
+
+        }
+    }
+
+    void generateTargets(List<int> targetCountsList)
+    {
+        
+        for (int i = 0; i < roomGB.Count; i++)
+        {
+            Vector4 rV4 = roomGB[i].GetComponent<room>().roomVec4;
+            Debug.Log(rV4);
+            for (int a = 0; a < targetCountsList[i]; a++)
+            {
+                GameObject currentTarget = objectPooler.SpawnFromPool("target", new Vector3(Random.Range(rV4.x + 3, rV4.z - 3), 2, Random.Range(rV4.y + 3, rV4.w - 3)), Quaternion.identity);
+                roomGB[i].GetComponent<room>().targets.Add(currentTarget);
+                currentTarget.GetComponent<Target>().room = roomGB[i];
+            }
+
+        }
+    }
+
+    void generateTargetCountsList(){
+        
+        List<int> targetCountsList = new List<int>();
+        int listSum = 0;
+        int maxTargets = objectPooler.GetComponent<ObjectPooler>().pools[3].size;
+        for (int i = 0; i < roomGB.Count; i++){
+            float roomWith = roomGB[i].transform.localScale.x;
+            float roomLength = roomGB[i].transform.localScale.z;
+            float roomSize = roomWith * roomLength;
+            int targetCount = (int)(roomSize /350);
+            Debug.Log("roomsize " + roomSize);
+            Debug.Log("TargetCount " + targetCount);
+            targetCountsList.Add(targetCount);
+            listSum = listSum+targetCount;
+        }
+        if(listSum > maxTargets){
+            List<int> copiedTargetCountsList = targetCountsList;
+            targetCountsList.Sort();
+            int difference = listSum-maxTargets;
+            int highest = targetCountsList[0];
+            for(int a = 0; a < copiedTargetCountsList.Count; a++){
+                if(copiedTargetCountsList[a] == highest){
+                    copiedTargetCountsList[a] = copiedTargetCountsList[a]-difference;
+                }
+            }
+            generateTargets(copiedTargetCountsList);
+        }else{
+            generateTargets(targetCountsList);
+        }
+
+    }
+    void generatePlayer()
+    {
+        float x = roomGB[0].GetComponent<room>().roomVec4.x + 3;
+        float z = roomGB[0].GetComponent<room>().roomVec4.y + 3;
+        player = objectPooler.SpawnFromPool("player", new Vector3(x, 1, z), Quaternion.identity);
+        player.tag = "Player";
     }
     bool isDivisible(Vector4 area, int i)
     {
@@ -112,12 +214,17 @@ public class MapGeneration : MonoBehaviour
         /*         Debug.Log("Size of room " + i + ": " + currentAreaLength + " " + currentAreaWidth);
          */
 
-        if (divideVert){
-            if(currentAreaLength > currentAreaWidth*3){
+        if (divideVert)
+        {
+            if (currentAreaLength > currentAreaWidth * 3)
+            {
                 divideVert = false;
             }
-        }else{
-            if(currentAreaWidth > currentAreaLength*3){
+        }
+        else
+        {
+            if (currentAreaWidth > currentAreaLength * 3)
+            {
                 divideVert = true;
             }
         }
@@ -151,6 +258,7 @@ public class MapGeneration : MonoBehaviour
         string istring = i.ToString();
         room.name = istring;
         room.transform.localScale = size;
-        Debug.Log("Scale of " + room + ": " + room.transform.localScale);
+        /*  Debug.Log("Scale of " + room + ": " + room.transform.localScale); */
     }
+
 }

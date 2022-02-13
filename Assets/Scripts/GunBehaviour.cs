@@ -27,17 +27,15 @@ public class GunBehaviour : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
-            Debug.Log(hit.transform.name);
+            GameObject hitObject = hit.transform.parent.gameObject;
             
-            Target target = hit.transform.parent.gameObject.GetComponent<Target>();
-            if (target != null)
-            {
-                target.TakeDamage(damage);
+            if (hitObject.GetComponent<Target>() != null)
+            {   
+                hitObject.GetComponent<Target>().TakeDamage(damage);
+                
             }
         }
     }
 
-    void Die(){
-        Destroy(gameObject);
-    }
+   
 }
