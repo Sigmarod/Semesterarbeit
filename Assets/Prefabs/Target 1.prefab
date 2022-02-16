@@ -66,6 +66,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   death: {fileID: 2465455894246701322}
+  room: {fileID: 0}
+  model: {fileID: 7209500493195882405}
 --- !u!1001 &5540523922514080615
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135,6 +137,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d22cadde20802642bdbbf131507c31d, type: 3}
+--- !u!1 &7209500493195882405 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2949487939109838018, guid: 1d22cadde20802642bdbbf131507c31d, type: 3}
+  m_PrefabInstance: {fileID: 5540523922514080615}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6822020785234418645 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1319355565351889074, guid: 1d22cadde20802642bdbbf131507c31d, type: 3}

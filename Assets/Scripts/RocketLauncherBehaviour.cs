@@ -7,6 +7,12 @@ public class RocketLauncherBehaviour : MonoBehaviour
     public GameObject opticalMissile;
     ObjectPooler objectPooler;
     public Animator rocketLauncherAnimations;
+    public GameObject currentMissile;
+
+    public Camera fpsCam;
+    public GameObject revolver;
+    bool ready = true;
+    bool switchAllowed = true;
 
     // Start is called before the first frame update
     void Start()
@@ -17,17 +23,41 @@ public class RocketLauncherBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
-            Shoot();
+            if(ready){
+                Shoot();
+            }
+            
+        }
+        if(Input.GetKeyDown(KeyCode.Alpha1)){
+            if(switchAllowed){
+                Debug.Log("switch");
+                switchWeapon();
+                switchAllowed = false;
+            }
+            
         }
     }
     
     void Shoot(){
         rocketLauncherAnimations.Play("rocketLauncherShoot", 0, 0.0f);
-        GameObject currentMissile = objectPooler.SpawnFromPool("missile",opticalMissile.transform.position, Quaternion.identity);
+        currentMissile = objectPooler.SpawnFromPool("missile",opticalMissile.transform.position, Quaternion.identity);
         Quaternion launcher = this.transform.rotation;
         Vector3 direction = new Vector3(launcher.x,launcher.y,launcher.z);
-        currentMissile.GetComponent<Missile>().shoot(direction);
+        currentMissile.GetComponent<Missile>().shoot(direction, fpsCam);
+        ready = false;
+    }
+
+    void reload(){
+        ready = true;
+    }
+
+    void switchWeapon(){
+        
+        revolver.SetActive(true);
+        this.gameObject.SetActive(false);
+        
+
     }
 }

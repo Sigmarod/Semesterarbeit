@@ -163,6 +163,7 @@ public class MapGeneration : MonoBehaviour
                 GameObject currentTarget = objectPooler.SpawnFromPool("target", new Vector3(Random.Range(rV4.x + 3, rV4.z - 3), 2, Random.Range(rV4.y + 3, rV4.w - 3)), Quaternion.identity);
                 roomGB[i].GetComponent<room>().targets.Add(currentTarget);
                 currentTarget.GetComponent<Target>().room = roomGB[i];
+                currentTarget.GetComponent<Target>().model.layer = 7;
             }
 
         }

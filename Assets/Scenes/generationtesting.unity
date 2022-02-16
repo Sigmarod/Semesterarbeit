@@ -352,3 +352,6 @@ MonoBehaviour:
   - tag: target
     prefab: {fileID: 2465455894246701323, guid: 4cdab43b62f139e4e8a6e3a9baa86a39, type: 3}
     size: 50
+  - tag: missile
+    prefab: {fileID: 4092872357349286730, guid: 5269dd52fdc50ea429c6b6a65cc1161e, type: 3}
+    size: 5
