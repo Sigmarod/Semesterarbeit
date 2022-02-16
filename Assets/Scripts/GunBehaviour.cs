@@ -20,13 +20,16 @@ public class GunBehaviour : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if(ready){
+            if (ready)
+            {
                 Shoot();
             }
-            
+
         }
-        if(Input.GetKeyDown(KeyCode.Alpha2)){
-            if(ready){
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            if (ready)
+            {
                 switchWeapon();
             }
         }
@@ -34,30 +37,36 @@ public class GunBehaviour : MonoBehaviour
 
     void Shoot()
     {
-        
+
         gunAnimations.Play("revolverShoot", 0, 0.0f);
-        
+
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
-            
+
             GameObject hitObject = hit.transform.parent.gameObject;
-            
-            if (hitObject.GetComponent<Target>() != null)
-            {   
-                hitObject.GetComponent<Target>().Die();;
-                
+            if (hitObject.layer == 7 && hitObject.tag != "armor")
+            {
+                if (hitObject.GetComponent<Target>() != null)
+                {
+                    hitObject.GetComponent<Target>().Die(); ;
+
+                }
             }
+
+
         }
         ready = false;
     }
 
-    void reload(){
+    void reload()
+    {
         Debug.Log("reload");
         ready = true;
     }
 
-    void switchWeapon(){
+    void switchWeapon()
+    {
         rocketLauncher.SetActive(true);
         this.gameObject.SetActive(false);
     }

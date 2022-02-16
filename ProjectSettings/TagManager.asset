@@ -6,6 +6,7 @@ TagManager:
   tags:
   - firstRoom
   - lastRoom
+  - armor
   layers:
   - Default
   - TransparentFX

@@ -151,9 +151,9 @@ public class MapGeneration : MonoBehaviour
         }
     }
 
-    void generateTargets(List<int> targetCountsList)
+    void generateTargets(List<int> targetCountsList, List<int> armTargetCountsList)
     {
-        
+
         for (int i = 0; i < roomGB.Count; i++)
         {
             Vector4 rV4 = roomGB[i].GetComponent<room>().roomVec4;
@@ -163,42 +163,87 @@ public class MapGeneration : MonoBehaviour
                 GameObject currentTarget = objectPooler.SpawnFromPool("target", new Vector3(Random.Range(rV4.x + 3, rV4.z - 3), 2, Random.Range(rV4.y + 3, rV4.w - 3)), Quaternion.identity);
                 roomGB[i].GetComponent<room>().targets.Add(currentTarget);
                 currentTarget.GetComponent<Target>().room = roomGB[i];
-                currentTarget.GetComponent<Target>().model.layer = 7;
+            }
+
+            for (int a = 0; a < armTargetCountsList[i]; a++)
+            {
+                GameObject currentTarget = objectPooler.SpawnFromPool("armorTarget", new Vector3(Random.Range(rV4.x + 3, rV4.z - 3), 2, Random.Range(rV4.y + 3, rV4.w - 3)), Quaternion.identity);
+                roomGB[i].GetComponent<room>().targets.Add(currentTarget);
+                currentTarget.GetComponent<Target>().room = roomGB[i];
             }
 
         }
     }
 
-    void generateTargetCountsList(){
-        
+    void generateTargetCountsList()
+    {
+
         List<int> targetCountsList = new List<int>();
+        List<int> armTargetCountsList = new List<int>();
         int listSum = 0;
+        int armListSum = 0;
         int maxTargets = objectPooler.GetComponent<ObjectPooler>().pools[3].size;
-        for (int i = 0; i < roomGB.Count; i++){
+        int maxArmTargets = objectPooler.GetComponent<ObjectPooler>().pools[5].size;
+        for (int i = 0; i < roomGB.Count; i++)
+        {
             float roomWith = roomGB[i].transform.localScale.x;
             float roomLength = roomGB[i].transform.localScale.z;
             float roomSize = roomWith * roomLength;
-            int targetCount = (int)(roomSize /350);
+            int targetCount = (int)(roomSize / 350);
             Debug.Log("roomsize " + roomSize);
             Debug.Log("TargetCount " + targetCount);
             targetCountsList.Add(targetCount);
-            listSum = listSum+targetCount;
+            listSum = listSum + targetCount;
         }
-        if(listSum > maxTargets){
+        if (listSum > maxTargets)
+        {
             List<int> copiedTargetCountsList = targetCountsList;
             targetCountsList.Sort();
-            int difference = listSum-maxTargets;
+            int difference = listSum - maxTargets;
             int highest = targetCountsList[0];
-            for(int a = 0; a < copiedTargetCountsList.Count; a++){
-                if(copiedTargetCountsList[a] == highest){
-                    copiedTargetCountsList[a] = copiedTargetCountsList[a]-difference;
+            for (int a = 0; a < copiedTargetCountsList.Count; a++)
+            {
+                if (copiedTargetCountsList[a] == highest)
+                {
+                    copiedTargetCountsList[a] = copiedTargetCountsList[a] - difference;
                 }
             }
-            generateTargets(copiedTargetCountsList);
-        }else{
-            generateTargets(targetCountsList);
+            targetCountsList = copiedTargetCountsList;
         }
 
+
+        for (int i = 0; i < roomGB.Count; i++)
+        {
+            float roomWith = roomGB[i].transform.localScale.x;
+            float roomLength = roomGB[i].transform.localScale.z;
+            float roomSize = roomWith * roomLength;
+            int targetCount = (int)(roomSize / 650);
+            Debug.Log("roomsize " + roomSize);
+            Debug.Log("TargetCount " + targetCount);
+            armTargetCountsList.Add(targetCount);
+            armListSum = armListSum + targetCount;
+        }
+        if (armListSum > maxArmTargets)
+        {
+            List<int> copiedArmTargetCountsList = armTargetCountsList;
+            armTargetCountsList.Sort();
+            int difference = listSum - maxTargets;
+            int highest = armTargetCountsList[0];
+            for (int a = 0; a < copiedArmTargetCountsList.Count; a++)
+            {
+                if (copiedArmTargetCountsList[a] == highest)
+                {
+                    copiedArmTargetCountsList[a] = copiedArmTargetCountsList[a] - difference;
+                }
+            }
+            generateTargets(targetCountsList, copiedArmTargetCountsList);
+        
+        }
+        else
+        {
+            generateTargets(targetCountsList, armTargetCountsList);
+
+        }
     }
     void generatePlayer()
     {

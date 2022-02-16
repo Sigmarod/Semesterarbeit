@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2465455894246701322}
   - component: {fileID: 2465455894246701320}
   m_Layer: 7
-  m_Name: Target 1
-  m_TagString: Untagged
+  m_Name: ArmorTarget
+  m_TagString: armor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,6 +75,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2465455894246701321}
     m_Modifications:
+    - target: {fileID: 97489947124452470, guid: 1d22cadde20802642bdbbf131507c31d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8198c51e0f3bdf74e8782628cbf608bc, type: 2}
     - target: {fileID: 1319355565351889074, guid: 1d22cadde20802642bdbbf131507c31d, type: 3}
       propertyPath: m_RootOrder
       value: 0
