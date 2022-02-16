@@ -355,3 +355,6 @@ MonoBehaviour:
   - tag: missile
     prefab: {fileID: 4092872357349286730, guid: 5269dd52fdc50ea429c6b6a65cc1161e, type: 3}
     size: 5
+  - tag: armorTarget
+    prefab: {fileID: 2465455894246701323, guid: fc2b21ab719a5d94f94dbb6e3ebd5258, type: 3}
+    size: 20
