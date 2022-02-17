@@ -15,7 +15,7 @@ public class Missile : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        this.GetComponent<Rigidbody>().velocity = direction*50;
+        this.GetComponent<Rigidbody>().velocity = direction*40;
     }
 
     public void shoot(Vector3 givenDirection, Camera fpsCam){
@@ -36,7 +36,7 @@ public class Missile : MonoBehaviour
         this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
         rocketFire.enabled = false;
         explosion.Play();
-        Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, 8, targetMask);
+        Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, 6, targetMask);
         for(int i = 0; i < hitColliders.Length; i++){
             Debug.Log(hitColliders[i]);
             hitColliders[i].gameObject.GetComponentInParent<Target>().Die();

@@ -26,6 +26,8 @@ public class MapGeneration : MonoBehaviour
     ObjectPooler objectPooler;
     //Player
     GameObject player;
+    //UI
+    public GameObject UI;
 
 
     // Start is called before the first frame update
@@ -33,13 +35,17 @@ public class MapGeneration : MonoBehaviour
     {
         objectPooler = ObjectPooler.Instance;
         generateMap();
+        
+    }
+    public void generateMap(){
+        UI.GetComponent<UIController>().timerFunction();
+        generateRooms();
         generateTeleporter();
         generateTargetCountsList();
         generatePlayer();
         roomGB[0].GetComponent<room>().playerEnter(roomGB.Count);
     }
-
-    void generateMap()
+    void generateRooms()
     {
         areaList.Add(new Vector4(0, 0, baseAreaWidth, baseAreaLength));
 
@@ -47,14 +53,12 @@ public class MapGeneration : MonoBehaviour
         {
 
             Vector4 area = areaList[i];
-            /* WORDAROUND SOLUTION SHOULD PROBABLY BE CHANGED IN THE FUTURE */
             if (isDivisible(area, i) && divisors.Count < maxRooms - 1)
             {
                 if (divideVert)
                 {
                     float divisor = Random.Range(area.x + minRoomLength, area.z - minRoomLength);
                     divisors.Add("v" + i + " " + divisor);
-                    /* Debug.Log("Divisor: " + divisor); */
                     //left area
                     areaList.Add(new Vector4(area.x, area.y, divisor, area.w));
                     //right area
@@ -116,7 +120,7 @@ public class MapGeneration : MonoBehaviour
             //room one
             Vector4 roomOneVec4 = roomScript.roomVec4;
             int roomOneNumber = roomScript.roomNumber;
-            Vector3 telOnePosition = new Vector3(roomOneVec4.x + 3, 0, roomOneVec4.y + ((roomOneVec4.w - roomOneVec4.y) / 2));
+            Vector3 telOnePosition = new Vector3(roomOneVec4.x + 3, 0, roomOneVec4.y + 3);
             GameObject telOne = objectPooler.SpawnFromPool("teleporter", telOnePosition, Quaternion.Euler(-90, 0, 0));
             roomScript.telIn = telOne;
             Teleporter telOneScript = telOne.GetComponent<Teleporter>();
@@ -126,7 +130,7 @@ public class MapGeneration : MonoBehaviour
             //room two
             Vector4 roomTwoVec4 = roomScript2.roomVec4;
             int roomTwoNumber = roomScript2.roomNumber;
-            Vector3 telTwoPosition = new Vector3(roomTwoVec4.z - 3, 0, roomTwoVec4.y + ((roomTwoVec4.w - roomTwoVec4.y) / 2));
+            Vector3 telTwoPosition = new Vector3(roomTwoVec4.z - 3, 0, roomTwoVec4.w - 3);
             GameObject telTwo = objectPooler.SpawnFromPool("teleporter", telTwoPosition, Quaternion.Euler(-90, 0, 0));
             roomScript2.telOut = telTwo;
             Teleporter telTwoScript = telTwo.GetComponent<Teleporter>();
@@ -157,12 +161,13 @@ public class MapGeneration : MonoBehaviour
         for (int i = 0; i < roomGB.Count; i++)
         {
             Vector4 rV4 = roomGB[i].GetComponent<room>().roomVec4;
-            Debug.Log(rV4);
+
             for (int a = 0; a < targetCountsList[i]; a++)
             {
                 GameObject currentTarget = objectPooler.SpawnFromPool("target", new Vector3(Random.Range(rV4.x + 3, rV4.z - 3), 2, Random.Range(rV4.y + 3, rV4.w - 3)), Quaternion.identity);
                 roomGB[i].GetComponent<room>().targets.Add(currentTarget);
                 currentTarget.GetComponent<Target>().room = roomGB[i];
+                currentTarget.GetComponent<Target>().UI = UI;
             }
 
             for (int a = 0; a < armTargetCountsList[i]; a++)
@@ -170,6 +175,7 @@ public class MapGeneration : MonoBehaviour
                 GameObject currentTarget = objectPooler.SpawnFromPool("armorTarget", new Vector3(Random.Range(rV4.x + 3, rV4.z - 3), 2, Random.Range(rV4.y + 3, rV4.w - 3)), Quaternion.identity);
                 roomGB[i].GetComponent<room>().targets.Add(currentTarget);
                 currentTarget.GetComponent<Target>().room = roomGB[i];
+                currentTarget.GetComponent<Target>().UI = UI;
             }
 
         }
@@ -190,8 +196,6 @@ public class MapGeneration : MonoBehaviour
             float roomLength = roomGB[i].transform.localScale.z;
             float roomSize = roomWith * roomLength;
             int targetCount = (int)(roomSize / 350);
-            Debug.Log("roomsize " + roomSize);
-            Debug.Log("TargetCount " + targetCount);
             targetCountsList.Add(targetCount);
             listSum = listSum + targetCount;
         }
@@ -218,8 +222,6 @@ public class MapGeneration : MonoBehaviour
             float roomLength = roomGB[i].transform.localScale.z;
             float roomSize = roomWith * roomLength;
             int targetCount = (int)(roomSize / 650);
-            Debug.Log("roomsize " + roomSize);
-            Debug.Log("TargetCount " + targetCount);
             armTargetCountsList.Add(targetCount);
             armListSum = armListSum + targetCount;
         }
@@ -237,7 +239,7 @@ public class MapGeneration : MonoBehaviour
                 }
             }
             generateTargets(targetCountsList, copiedArmTargetCountsList);
-        
+
         }
         else
         {
@@ -257,8 +259,6 @@ public class MapGeneration : MonoBehaviour
         float currentAreaWidth = area.z - area.x;
         float currentAreaLength = area.w - area.y;
         float minAreaLength = minRoomLength + roomAreaOffset;
-        /*         Debug.Log("Size of room " + i + ": " + currentAreaLength + " " + currentAreaWidth);
-         */
 
         if (divideVert)
         {
@@ -304,7 +304,6 @@ public class MapGeneration : MonoBehaviour
         string istring = i.ToString();
         room.name = istring;
         room.transform.localScale = size;
-        /*  Debug.Log("Scale of " + room + ": " + room.transform.localScale); */
     }
 
 }

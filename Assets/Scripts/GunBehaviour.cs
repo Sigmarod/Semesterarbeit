@@ -1,4 +1,5 @@
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GunBehaviour : MonoBehaviour
@@ -13,11 +14,14 @@ public class GunBehaviour : MonoBehaviour
     public Animator gunAnimations;
 
     public GameObject rocketLauncher;
+    public GameController gameManager;
+    private float animLength = 0.59f;
 
     bool ready = true;
     // Update is called once per frame
     void Update()
     {
+    
         if (Input.GetMouseButtonDown(0))
         {
             if (ready)
@@ -39,7 +43,7 @@ public class GunBehaviour : MonoBehaviour
     {
 
         gunAnimations.Play("revolverShoot", 0, 0.0f);
-
+        StartCoroutine(reloading());
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
@@ -59,15 +63,17 @@ public class GunBehaviour : MonoBehaviour
         ready = false;
     }
 
-    void reload()
-    {
-        Debug.Log("reload");
-        ready = true;
-    }
-
     void switchWeapon()
     {
         rocketLauncher.SetActive(true);
         this.gameObject.SetActive(false);
+    }
+
+    IEnumerator reloading()
+    {
+        yield return new WaitForSeconds(animLength);
+        // trigger the stop animation events here
+        Debug.Log("rreload");
+        ready = true;
     }
 }

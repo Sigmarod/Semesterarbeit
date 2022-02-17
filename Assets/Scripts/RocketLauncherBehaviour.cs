@@ -11,8 +11,8 @@ public class RocketLauncherBehaviour : MonoBehaviour
 
     public Camera fpsCam;
     public GameObject revolver;
-    bool ready = true;
-    bool switchAllowed = true;
+    private float animLength = 2.5f;
+    private bool ready = true;
 
     // Start is called before the first frame update
     void Start()
@@ -23,41 +23,52 @@ public class RocketLauncherBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetMouseButton(0))
         {
-            if(ready){
+            if (ready)
+            {
                 Shoot();
             }
-            
+
         }
-        if(Input.GetKeyDown(KeyCode.Alpha1)){
-            if(switchAllowed){
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if (ready)
+            {
                 Debug.Log("switch");
                 switchWeapon();
-                switchAllowed = false;
             }
-            
+
         }
     }
-    
-    void Shoot(){
+
+    void Shoot()
+    {
         rocketLauncherAnimations.Play("rocketLauncherShoot", 0, 0.0f);
-        currentMissile = objectPooler.SpawnFromPool("missile",opticalMissile.transform.position, Quaternion.identity);
+        currentMissile = objectPooler.SpawnFromPool("missile", opticalMissile.transform.position, Quaternion.identity);
         Quaternion launcher = this.transform.rotation;
-        Vector3 direction = new Vector3(launcher.x,launcher.y,launcher.z);
+        Vector3 direction = new Vector3(launcher.x, launcher.y, launcher.z);
         currentMissile.GetComponent<Missile>().shoot(direction, fpsCam);
         ready = false;
+        StartCoroutine(reloading());
     }
 
-    void reload(){
-        ready = true;
-    }
 
-    void switchWeapon(){
-        
+    void switchWeapon()
+    {
+
         revolver.SetActive(true);
         this.gameObject.SetActive(false);
-        
 
+
+    }
+
+    IEnumerator reloading()
+    {
+        yield return new WaitForSeconds(animLength);
+        // trigger the stop animation events here
+        Debug.Log("rreload");
+        ready = true;
     }
 }
