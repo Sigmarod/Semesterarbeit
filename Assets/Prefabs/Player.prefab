@@ -534,6 +534,7 @@ MonoBehaviour:
   fpsCam: {fileID: 7832142506899977447}
   gunAnimations: {fileID: 2853798117171234737}
   rocketLauncher: {fileID: 5250675255724921617}
+  gameManager: {fileID: 0}
 --- !u!1001 &2095517790832718009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -717,7 +718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1947189329703348, guid: b12227c752b72334b9c3d0f15986f1c2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4977564265705686, guid: b12227c752b72334b9c3d0f15986f1c2, type: 3}
       propertyPath: m_RootOrder

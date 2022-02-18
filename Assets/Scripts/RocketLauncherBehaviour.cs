@@ -13,18 +13,20 @@ public class RocketLauncherBehaviour : MonoBehaviour
     public GameObject revolver;
     private float animLength = 2.5f;
     private bool ready = true;
+    private bool gameIsPaused = false;
 
     // Start is called before the first frame update
     void Start()
     {
         objectPooler = ObjectPooler.Instance;
+        this.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetMouseButton(0))
+        if(!gameIsPaused){
+            if (Input.GetMouseButton(0))
         {
             if (ready)
             {
@@ -41,6 +43,8 @@ public class RocketLauncherBehaviour : MonoBehaviour
             }
 
         }
+        }
+        
     }
 
     void Shoot()
@@ -70,5 +74,10 @@ public class RocketLauncherBehaviour : MonoBehaviour
         // trigger the stop animation events here
         Debug.Log("rreload");
         ready = true;
+    }
+
+    public void pauseGame()
+    {
+        gameIsPaused = !gameIsPaused;
     }
 }

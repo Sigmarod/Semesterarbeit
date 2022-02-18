@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    int timer =  5;
+    int timer =  10;
     int score = 0;
     public Text timerText;
     public Text scoreText;
@@ -14,10 +14,6 @@ public class UIController : MonoBehaviour
     public GameObject endGame;
     public GameObject gameManager;
 
-    void Start()
-    {
-        timerFunction();
-    }
 
     public void timerFunction()
     {
@@ -51,5 +47,7 @@ public class UIController : MonoBehaviour
         score += 1;
         scoreText.text = score.ToString();
     }
+
+
 
 }

@@ -29,16 +29,18 @@ public class MapGeneration : MonoBehaviour
     //UI
     public GameObject UI;
 
+    public GameController gameController;
+
 
     // Start is called before the first frame update
     void Start()
     {
         objectPooler = ObjectPooler.Instance;
         generateMap();
+        UI.GetComponent<UIController>().timerFunction();
         
     }
     public void generateMap(){
-        UI.GetComponent<UIController>().timerFunction();
         generateRooms();
         generateTeleporter();
         generateTargetCountsList();
@@ -253,6 +255,8 @@ public class MapGeneration : MonoBehaviour
         float z = roomGB[0].GetComponent<room>().roomVec4.y + 3;
         player = objectPooler.SpawnFromPool("player", new Vector3(x, 1, z), Quaternion.identity);
         player.tag = "Player";
+        gameController.gunBehaviour = player.GetComponentInChildren<GunBehaviour>();
+        gameController.rocketLauncherBehaviour = player.GetComponentInChildren<RocketLauncherBehaviour>();
     }
     bool isDivisible(Vector4 area, int i)
     {

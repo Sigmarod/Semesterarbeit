@@ -17,26 +17,30 @@ public class GunBehaviour : MonoBehaviour
     public GameController gameManager;
     private float animLength = 0.59f;
 
+    private bool gameIsPaused = false;
     bool ready = true;
     // Update is called once per frame
     void Update()
     {
-    
-        if (Input.GetMouseButtonDown(0))
+        if (!gameIsPaused)
         {
-            if (ready)
+            if (Input.GetMouseButtonDown(0))
             {
-                Shoot();
-            }
+                if (ready)
+                {
+                    Shoot();
+                }
 
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            if (ready)
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                switchWeapon();
+                if (ready)
+                {
+                    switchWeapon();
+                }
             }
         }
+
     }
 
     void Shoot()
@@ -75,5 +79,9 @@ public class GunBehaviour : MonoBehaviour
         // trigger the stop animation events here
         Debug.Log("rreload");
         ready = true;
+    }
+
+    public void pauseGame(){
+        gameIsPaused = !gameIsPaused;
     }
 }
