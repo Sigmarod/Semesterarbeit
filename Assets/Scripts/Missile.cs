@@ -26,6 +26,7 @@ public class Missile : MonoBehaviour
         direction = fpsCam.transform.forward;
         this.transform.rotation = Quaternion.LookRotation(direction,Vector3.up);
         model.GetComponent<MeshRenderer>().enabled = true;
+        this.GetComponent<CapsuleCollider>().enabled = true;
         rocketFire.enabled = true;
 
     }
@@ -33,6 +34,7 @@ public class Missile : MonoBehaviour
     private void OnCollisionEnter(Collision other) {
         blast.Stop();
         model.GetComponent<MeshRenderer>().enabled = false;
+        this.GetComponent<CapsuleCollider>().enabled = false;
         this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
         rocketFire.enabled = false;
         explosion.Play();

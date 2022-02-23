@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
-    int timer =  10;
+    int timer = 60;
     int score = 0;
     public Text timerText;
     public Text scoreText;
@@ -13,6 +13,7 @@ public class UIController : MonoBehaviour
     public GameObject duringGame;
     public GameObject endGame;
     public GameObject gameManager;
+    public Image crosshair;
 
 
     public void timerFunction()
@@ -23,7 +24,7 @@ public class UIController : MonoBehaviour
         }
         else
         {
-
+            crosshair.enabled = false;
             gameManager.GetComponent<GameController>().pauseGame();
             duringGame.SetActive(false);
             endGame.SetActive(true);

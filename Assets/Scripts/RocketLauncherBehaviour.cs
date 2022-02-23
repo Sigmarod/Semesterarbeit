@@ -11,7 +11,7 @@ public class RocketLauncherBehaviour : MonoBehaviour
 
     public Camera fpsCam;
     public GameObject revolver;
-    private float animLength = 2.5f;
+    private float animLength = 1.75f;
     private bool ready = true;
     private bool gameIsPaused = false;
 
@@ -25,26 +25,28 @@ public class RocketLauncherBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!gameIsPaused){
+        if (!gameIsPaused)
+        {
             if (Input.GetMouseButton(0))
-        {
-            if (ready)
             {
-                Shoot();
-            }
+                if (ready)
+                {
+                    Shoot();
+                    ready = false;
+                }
 
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            if (ready)
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                Debug.Log("switch");
-                switchWeapon();
-            }
+                if (ready)
+                {
+                    Debug.Log("switch");
+                    switchWeapon();
+                }
 
+            }
         }
-        }
-        
+
     }
 
     void Shoot()
@@ -54,7 +56,6 @@ public class RocketLauncherBehaviour : MonoBehaviour
         Quaternion launcher = this.transform.rotation;
         Vector3 direction = new Vector3(launcher.x, launcher.y, launcher.z);
         currentMissile.GetComponent<Missile>().shoot(direction, fpsCam);
-        ready = false;
         StartCoroutine(reloading());
     }
 
@@ -63,6 +64,7 @@ public class RocketLauncherBehaviour : MonoBehaviour
     {
 
         revolver.SetActive(true);
+        ready = true;
         this.gameObject.SetActive(false);
 
 

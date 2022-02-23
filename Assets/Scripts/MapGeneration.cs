@@ -53,7 +53,6 @@ public class MapGeneration : MonoBehaviour
 
         for (int i = 0; i < areaList.Count; i++)
         {
-
             Vector4 area = areaList[i];
             if (isDivisible(area, i) && divisors.Count < maxRooms - 1)
             {
@@ -132,13 +131,13 @@ public class MapGeneration : MonoBehaviour
             //room two
             Vector4 roomTwoVec4 = roomScript2.roomVec4;
             int roomTwoNumber = roomScript2.roomNumber;
-            Vector3 telTwoPosition = new Vector3(roomTwoVec4.z - 3, 0, roomTwoVec4.w - 3);
+            Vector3 telTwoPosition = new Vector3(roomTwoVec4.z - 3, 0, roomTwoVec4.y + ((roomTwoVec4.w - roomTwoVec4.y) / 2));
             GameObject telTwo = objectPooler.SpawnFromPool("teleporter", telTwoPosition, Quaternion.Euler(-90, 0, 0));
             roomScript2.telOut = telTwo;
             Teleporter telTwoScript = telTwo.GetComponent<Teleporter>();
             telTwoScript.room = roomGB[i - 1];
             telTwoScript.roomCount = roomGB.Count;
-
+            
             //connect the teleporters
             telOneScript.partner = telTwo;
             telTwoScript.partner = telOne;
@@ -166,7 +165,8 @@ public class MapGeneration : MonoBehaviour
 
             for (int a = 0; a < targetCountsList[i]; a++)
             {
-                GameObject currentTarget = objectPooler.SpawnFromPool("target", new Vector3(Random.Range(rV4.x + 3, rV4.z - 3), 2, Random.Range(rV4.y + 3, rV4.w - 3)), Quaternion.identity);
+                float height = Random.Range(2,6);
+                GameObject currentTarget = objectPooler.SpawnFromPool("target", new Vector3(Random.Range(rV4.x + 3, rV4.z - 3), height, Random.Range(rV4.y + 3, rV4.w - 3)), Quaternion.identity);
                 roomGB[i].GetComponent<room>().targets.Add(currentTarget);
                 currentTarget.GetComponent<Target>().room = roomGB[i];
                 currentTarget.GetComponent<Target>().UI = UI;
@@ -174,7 +174,8 @@ public class MapGeneration : MonoBehaviour
 
             for (int a = 0; a < armTargetCountsList[i]; a++)
             {
-                GameObject currentTarget = objectPooler.SpawnFromPool("armorTarget", new Vector3(Random.Range(rV4.x + 3, rV4.z - 3), 2, Random.Range(rV4.y + 3, rV4.w - 3)), Quaternion.identity);
+                float height = Random.Range(2,6);
+                GameObject currentTarget = objectPooler.SpawnFromPool("armorTarget", new Vector3(Random.Range(rV4.x + 3, rV4.z - 3), height, Random.Range(rV4.y + 3, rV4.w - 3)), Quaternion.identity);
                 roomGB[i].GetComponent<room>().targets.Add(currentTarget);
                 currentTarget.GetComponent<Target>().room = roomGB[i];
                 currentTarget.GetComponent<Target>().UI = UI;

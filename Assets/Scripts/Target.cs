@@ -14,15 +14,15 @@ public class Target : MonoBehaviour
     private void Start() {
         targetTransform = this.gameObject.transform;
     }
-    private void Update() {
+    private void FixedUpdate() {
         if(this.gameObject.tag != "armor"){
             if(hoverUp){
-                targetTransform.position += new Vector3(0,0.005f,0);
+                targetTransform.position += new Vector3(0,0.05f,0);
                 if(targetTransform.position.y >= maxHeight){
                     hoverUp = false;
                 }
             }else{
-                targetTransform.position += new Vector3(0,-0.005f,0);
+                targetTransform.position += new Vector3(0,-0.05f,0);
                 if(targetTransform.position.y <= minHeight){
                     hoverUp = true;
                 }

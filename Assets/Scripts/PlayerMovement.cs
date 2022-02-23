@@ -49,18 +49,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 speed = 15;
             }
-
+            //Sliden
             if (Input.GetKey(KeyCode.LeftControl))
-            {
-                
+            {               
                 controller.height = 1.2f;
                 controller.Move(move * slideSpeed * Time.deltaTime);
                 if(slideSpeed > 0)
                 {
                     slideSpeed = slideSpeed - 0.04f;
                 }
-                
-
             }
             else
             {
@@ -68,8 +65,6 @@ public class PlayerMovement : MonoBehaviour
                 controller.height = 3.4f;
                 controller.Move(move * speed * Time.deltaTime);
             }
-
-            
         }
         else
         {

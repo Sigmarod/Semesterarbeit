@@ -21,7 +21,8 @@ public class Teleporter : MonoBehaviour
             player.transform.position = destination;
             player.GetComponent<CharacterController>().enabled = true;
             partner.GetComponent<Teleporter>().telOff = true;
-            partner.GetComponent<Teleporter>().room.GetComponent<room>().playerEnter(roomCount);        }
+            partner.GetComponent<Teleporter>().room.GetComponent<room>().playerEnter(roomCount);
+        }
     }
 }
 

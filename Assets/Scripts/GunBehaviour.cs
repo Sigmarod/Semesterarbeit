@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class GunBehaviour : MonoBehaviour
 {
-
-    public float damage = 10f;
     public float range = 100f;
-
 
     public Camera fpsCam;
 
@@ -15,20 +12,23 @@ public class GunBehaviour : MonoBehaviour
 
     public GameObject rocketLauncher;
     public GameController gameManager;
-    private float animLength = 0.59f;
+    private float animLength = 1.5f;
 
     private bool gameIsPaused = false;
-    bool ready = true;
+    private bool ready = true;
     // Update is called once per frame
     void Update()
     {
         if (!gameIsPaused)
         {
+            
             if (Input.GetMouseButtonDown(0))
             {
+                Debug.Log("key ist detected");
                 if (ready)
                 {
                     Shoot();
+                    ready = false;
                 }
 
             }
@@ -37,6 +37,7 @@ public class GunBehaviour : MonoBehaviour
                 if (ready)
                 {
                     switchWeapon();
+                    ready = false;
                 }
             }
         }
@@ -51,7 +52,6 @@ public class GunBehaviour : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
-
             GameObject hitObject = hit.transform.parent.gameObject;
             if (hitObject.layer == 7 && hitObject.tag != "armor")
             {
@@ -61,27 +61,26 @@ public class GunBehaviour : MonoBehaviour
 
                 }
             }
-
-
         }
-        ready = false;
+        
     }
 
     void switchWeapon()
     {
         rocketLauncher.SetActive(true);
+        ready = true;
         this.gameObject.SetActive(false);
     }
-
     IEnumerator reloading()
     {
         yield return new WaitForSeconds(animLength);
-        // trigger the stop animation events here
-        Debug.Log("rreload");
         ready = true;
     }
 
     public void pauseGame(){
         gameIsPaused = !gameIsPaused;
+        Debug.Log(gameIsPaused);
     }
+
+    
 }

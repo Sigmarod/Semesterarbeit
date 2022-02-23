@@ -22,26 +22,20 @@ public class ObjectPooler : MonoBehaviour
 
     }
     #endregion
-    public Dictionary<string, Queue<GameObject>> poolDictionary;
-
+    public Dictionary<string, Queue<GameObject>> poolDictionary;        
     public List<Pool> pools;
-    // Start is called before the first frame update
-
-
     void Start()
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
         foreach (Pool pool in pools)
         {
             Queue<GameObject> objectPool = new Queue<GameObject>();
-
             for (int i = 0; i < pool.size; i++)
             {
                 GameObject obj = Instantiate(pool.prefab);
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }
-
             poolDictionary.Add(pool.tag, objectPool);
         }
     }
@@ -50,10 +44,7 @@ public class ObjectPooler : MonoBehaviour
     {
         if (poolDictionary.ContainsKey(tag))
         {
-
-
             GameObject objectToSpawn = poolDictionary[tag].Dequeue();
-
             objectToSpawn.transform.position = position;
             objectToSpawn.transform.rotation = rotation;
             objectToSpawn.SetActive(true);
