@@ -12,7 +12,7 @@ public class RocketLauncherBehaviour : MonoBehaviour
     public Camera fpsCam;
     public GameObject revolver;
     private float animLength = 1.75f;
-    private bool ready = true;
+    public bool ready = true;
     private bool gameIsPaused = false;
 
     // Start is called before the first frame update
@@ -27,24 +27,22 @@ public class RocketLauncherBehaviour : MonoBehaviour
     {
         if (!gameIsPaused)
         {
-            if (Input.GetMouseButton(0))
+            if (ready)
             {
-                if (ready)
+                if (Input.GetMouseButtonDown(0))
                 {
+                    Debug.Log("key ist detected");
                     Shoot();
                     ready = false;
                 }
-
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                if (ready)
+                if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
                     Debug.Log("switch");
                     switchWeapon();
+                    ready = false;
                 }
-
             }
+
         }
 
     }
@@ -62,9 +60,8 @@ public class RocketLauncherBehaviour : MonoBehaviour
 
     void switchWeapon()
     {
-
         revolver.SetActive(true);
-        ready = true;
+        revolver.GetComponent<GunBehaviour>().ready = true;
         this.gameObject.SetActive(false);
 
 

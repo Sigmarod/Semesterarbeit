@@ -12,38 +12,40 @@ public class GunBehaviour : MonoBehaviour
 
     public GameObject rocketLauncher;
     public GameController gameManager;
-    private float animLength = 1.5f;
+    private float animLength = 0.59f;
 
     private bool gameIsPaused = false;
-    private bool ready = true;
+    public bool ready = true;
     // Update is called once per frame
     void Update()
     {
+
         if (!gameIsPaused)
         {
-            
-            if (Input.GetMouseButtonDown(0))
+            if (ready)
             {
-                Debug.Log("key ist detected");
-                if (ready)
+                if (Input.GetMouseButtonDown(0))
                 {
+                    Debug.Log("key ist detected");
                     Shoot();
                     ready = false;
                 }
-
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                if (ready)
+                if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
                     switchWeapon();
                     ready = false;
                 }
             }
+
         }
 
     }
 
+    void shoottest()
+    {
+        StartCoroutine(reloading());
+        Debug.Log("shoottest");
+    }
     void Shoot()
     {
 
@@ -52,35 +54,41 @@ public class GunBehaviour : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
-            GameObject hitObject = hit.transform.parent.gameObject;
-            if (hitObject.layer == 7 && hitObject.tag != "armor")
+            if (hit.transform.gameObject.layer == 7)
             {
-                if (hitObject.GetComponent<Target>() != null)
+                GameObject hitObject = hit.transform.parent.gameObject;
+                if (hitObject.layer == 7 && hitObject.tag != "armor")
                 {
-                    hitObject.GetComponent<Target>().Die(); ;
+                    if (hitObject.GetComponent<Target>() != null)
+                    {
+                        hitObject.GetComponent<Target>().Die(); ;
 
+                    }
                 }
             }
+
         }
-        
+
     }
 
     void switchWeapon()
     {
         rocketLauncher.SetActive(true);
-        ready = true;
+        rocketLauncher.GetComponent<RocketLauncherBehaviour>().ready = true;
         this.gameObject.SetActive(false);
     }
+
     IEnumerator reloading()
     {
         yield return new WaitForSeconds(animLength);
+        Debug.Log("reloadrev");
         ready = true;
     }
 
-    public void pauseGame(){
+    public void pauseGame()
+    {
         gameIsPaused = !gameIsPaused;
-        Debug.Log(gameIsPaused);
     }
 
-    
+
 }
