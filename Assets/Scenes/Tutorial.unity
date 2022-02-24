@@ -315,7 +315,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 97, y: 208}
+  m_AnchoredPosition: {x: 90, y: 256}
   m_SizeDelta: {x: 251.755, y: 52.992}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &223851754
@@ -606,7 +606,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.000011444, y: -67}
+  m_AnchoredPosition: {x: -0.000011444, y: -26}
   m_SizeDelta: {x: 706.896, y: 174.344}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &388164855
@@ -819,7 +819,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -28.600342, y: -172.34245}
+  m_AnchoredPosition: {x: -35.6, y: -120}
   m_SizeDelta: {x: 252.7993, y: 56.5652}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &499617812
@@ -973,8 +973,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 193.17, y: -106.82303}
-  m_SizeDelta: {x: 639.15, y: 153.6461}
+  m_AnchoredPosition: {x: 193.17, y: -133.1611}
+  m_SizeDelta: {x: 639.15, y: 206.3223}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &659012065
 MonoBehaviour:
@@ -1019,7 +1019,11 @@ MonoBehaviour:
     Grey targets are armored and need
     to be shot
 
-    with the rocket launcher.'
+    with the rocket launcher.
+
+
+    Once all targets are shot youu
+    can go to the next room.'
 --- !u!222 &659012066
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1213,7 +1217,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 1188, y: 208}
+  m_AnchoredPosition: {x: 1181, y: 255.99998}
   m_SizeDelta: {x: 322.8649, y: 52.992}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &830428337
@@ -1297,7 +1301,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 645, y: 208.00002}
+  m_AnchoredPosition: {x: 638, y: 256}
   m_SizeDelta: {x: 251.755, y: 52.992}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &864409284
@@ -2001,8 +2005,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -6.2244034, y: -185.81175}
-  m_SizeDelta: {x: 239.3083, y: 289.6136}
+  m_AnchoredPosition: {x: -6.2244034, y: -188.46}
+  m_SizeDelta: {x: 239.3083, y: 294.91}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1855526828
 MonoBehaviour:
