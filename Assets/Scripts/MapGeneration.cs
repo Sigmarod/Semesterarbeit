@@ -131,7 +131,7 @@ public class MapGeneration : MonoBehaviour
             //room two
             Vector4 roomTwoVec4 = roomScript2.roomVec4;
             int roomTwoNumber = roomScript2.roomNumber;
-            Vector3 telTwoPosition = new Vector3(roomTwoVec4.z - 3, 0, roomTwoVec4.y + ((roomTwoVec4.w - roomTwoVec4.y) / 2));
+            Vector3 telTwoPosition = new Vector3(roomTwoVec4.z - 3, 0, roomTwoVec4.w - 3);
             GameObject telTwo = objectPooler.SpawnFromPool("teleporter", telTwoPosition, Quaternion.Euler(-90, 0, 0));
             roomScript2.telOut = telTwo;
             Teleporter telTwoScript = telTwo.GetComponent<Teleporter>();
