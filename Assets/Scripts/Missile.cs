@@ -15,7 +15,7 @@ public class Missile : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        this.GetComponent<Rigidbody>().velocity = direction*50;
+        this.GetComponent<Rigidbody>().velocity = direction*40;
     }
 
     public void shoot(Vector3 givenDirection, Camera fpsCam){
@@ -26,6 +26,7 @@ public class Missile : MonoBehaviour
         direction = fpsCam.transform.forward;
         this.transform.rotation = Quaternion.LookRotation(direction,Vector3.up);
         model.GetComponent<MeshRenderer>().enabled = true;
+        this.GetComponent<CapsuleCollider>().enabled = true;
         rocketFire.enabled = true;
 
     }
@@ -33,10 +34,11 @@ public class Missile : MonoBehaviour
     private void OnCollisionEnter(Collision other) {
         blast.Stop();
         model.GetComponent<MeshRenderer>().enabled = false;
+        this.GetComponent<CapsuleCollider>().enabled = false;
         this.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
         rocketFire.enabled = false;
         explosion.Play();
-        Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, 8, targetMask);
+        Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, 6, targetMask);
         for(int i = 0; i < hitColliders.Length; i++){
             Debug.Log(hitColliders[i]);
             hitColliders[i].gameObject.GetComponentInParent<Target>().Die();

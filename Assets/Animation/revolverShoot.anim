@@ -37,25 +37,25 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.033333335
-        value: {x: 0, y: -90, z: 54.36508}
-        inSlope: {x: 0, y: 0, z: 746.7196}
-        outSlope: {x: 0, y: 0, z: 746.7196}
+        value: {x: 0, y: -90, z: 53.137135}
+        inSlope: {x: 0, y: 0, z: 601.1168}
+        outSlope: {x: 0, y: 0, z: 601.1168}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.48333332
-        value: {x: 0, y: -90, z: 1045}
-        inSlope: {x: 0, y: 0, z: 247.05887}
-        outSlope: {x: 0, y: 0, z: 247.05887}
+        value: {x: 0, y: -90, z: 700}
+        inSlope: {x: 0, y: 0, z: 141.1765}
+        outSlope: {x: 0, y: 0, z: 141.1765}
         tangentMode: 0
         weightedMode: 0
         inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.5833333
-        value: {x: 0, y: -90, z: 1080}
+        value: {x: 0, y: -90, z: 720}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -275,16 +275,16 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.48333332
-        value: 1045
-        inSlope: 247.05887
-        outSlope: 247.05887
+        value: 700
+        inSlope: 141.1765
+        outSlope: 141.1765
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.5833333
-        value: 1080
+        value: 720
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -331,11 +331,4 @@ AnimationClip:
     script: {fileID: 0}
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
-  m_Events:
-  - time: 0.5833333
-    functionName: reload
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
+  m_Events: []
