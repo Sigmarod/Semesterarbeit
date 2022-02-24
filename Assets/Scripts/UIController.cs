@@ -13,7 +13,6 @@ public class UIController : MonoBehaviour
     public GameObject duringGame;
     public GameObject endGame;
     public GameObject gameManager;
-    public Image crosshair;
 
 
     public void timerFunction()
@@ -24,8 +23,8 @@ public class UIController : MonoBehaviour
         }
         else
         {
-            crosshair.enabled = false;
-            gameManager.GetComponent<GameController>().pauseGame();
+
+            gameManager.GetComponent<GameController>().pauseGame(true);
             duringGame.SetActive(false);
             endGame.SetActive(true);
             endGameScoreText.text = score.ToString();
