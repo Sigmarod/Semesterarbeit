@@ -7,7 +7,7 @@ The main focus of the project was to develop a reliable levelgeneration algorith
 This version of the game contains a five room level with two enemy types.
 
 ## Version
-* Current Version: `v0.6`
+* Current Version: `v0.7`
 
 ## Author
 * Liam Morgenthaler | Sigmarod
